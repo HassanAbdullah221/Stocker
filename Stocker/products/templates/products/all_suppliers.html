@@ -1,0 +1,14 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}All Suppliers{% endblock %}
+
+{% block content %}
+<h1 class="text-warning text-center m-5 fade-in">Suppliers</h1>
+
+<div class="container fade-in">
+    <div id="suppliers" class="row fade-in">
+        {% include 'products/supplier_list.html' %}
+    </div>
+</div>
+{% endblock %}

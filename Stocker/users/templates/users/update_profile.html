@@ -1,0 +1,55 @@
+{% extends 'main/base.html' %}
+
+{% block title %} Update Profile {% endblock %}
+
+{% block content %}
+<div class="container d-flex flex-column justify-content-center align-items-center mt-5">
+
+    <h2>Update Your Profile</h2>
+    <form class="d-flex flex-column gap-3 w-50" action="{% url 'users:update_user_profile' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="form-floating">
+            <input type="email" class="form-control" id="floatingEmail" placeholder="name@example.com" name="email" value="{{ user.email }}" required>
+            <label for="floatingEmail">Email address</label>
+        </div>
+
+        <div class="form-floating">
+            <input type="text" class="form-control" id="floatingFirstName" placeholder="First name" name="first_name" value="{{ user.first_name }}" required>
+            <label for="floatingFirstName">First name</label>
+        </div>
+
+        <div class="form-floating">
+            <input type="text" class="form-control" id="floatingLastName" placeholder="Last name" name="last_name" value="{{ user.last_name }}" required>
+            <label for="floatingLastName">Last name</label>
+        </div>
+
+        <div class="form-floating">
+            <input type="text" class="form-control" id="floatingUsername" placeholder="Username" name="username" value="{{ user.username }}" required>
+            <label for="floatingUsername">Username</label>
+        </div>
+
+        <!-- About (with floating label) -->
+        <div class="form-floating">
+            <textarea class="form-control" id="floatingAbout" placeholder="About" name="about" style="height: 140px">{{ user.profile.about }}</textarea>
+            <label for="floatingAbout">About</label>
+        </div>
+
+        <div class="form-floating">
+            <input type="text" class="form-control" id="floatingPhone" placeholder="Phone number" name="phone" value="{{ user.profile.phone }}">
+            <label for="floatingPhone">Phone</label>
+        </div>
+
+        {% if user.profile.avatar %}
+            <img src="{{ user.profile.avatar.url }}" class=" rounded-4 mb-3" alt="Current avatar" width="250"/>
+        {% endif %}
+        <div class="mb-2">
+            <label for="avatar" class="form-label">Avatar</label>
+            <input type="file" id="avatar" name="avatar" accept="image/*" class="form-control" />
+        </div>
+
+        <button class="btn btn-primary w-100 py-2" type="submit">Update Profile</button>
+    </form>
+</div>
+
+{% endblock %}

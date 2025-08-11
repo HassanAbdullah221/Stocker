@@ -1,0 +1,23 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}Import Products{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-warning mb-4">Import Products from CSV</h2>
+    <form method="post" enctype="multipart/form-data" class="bg-white p-4 rounded shadow-sm">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label">Select CSV File</label>
+            <input type="file" name="file" accept=".csv" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-warning fw-bold">Import</button>
+        <a href="{% url 'products:display_all_products_view' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+    <div class="mt-4">
+        <h6>CSV Columns</h6>
+        <code>name, description, price, quantity, category, suppliers, image</code>
+    </div>
+</div>
+{% endblock %}

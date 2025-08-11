@@ -1,0 +1,86 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Manage Suppliers{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
+    <h2 class="text-warning mb-0">Manage Suppliers</h2>
+    <div class="d-flex gap-2">
+      <a href="{% url 'products:display_all_suppliers_view' %}" class="btn btn-success text-white fw-bold">Display All Suppliers</a>
+      {% if perms.products.add_supplier %}
+        <a href="{% url 'products:add_supplier_view' %}" class="btn btn-warning text-dark fw-bold">Add New Supplier</a>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if suppliers %}
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover bg-white align-middle text-center">
+      <thead class="table-dark">
+        <tr>
+          <th class="text-warning">Logo</th>
+          <th class="text-warning">Name</th>
+          <th class="text-warning">Contact Email</th>
+          <th class="text-warning">Contact Phone</th>
+          <th class="text-warning">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for supplier in suppliers %}
+        <tr>
+          <td>
+            {% if supplier.logo %}
+              <img src="{{ supplier.logo.url }}" alt="{{ supplier.name }}" width="80" height="60" class="img-thumbnail">
+            {% else %}
+              <span class="text-muted">No logo</span>
+            {% endif %}
+          </td>
+          <td>{{ supplier.name }}</td>
+          <td>{{ supplier.contact_email }}</td>
+          <td>{{ supplier.contact_phone }}</td>
+          <td>
+            <div class="d-flex flex-column flex-lg-row gap-2 justify-content-center">
+              <a href="{% url 'products:supplier_detail_view' supplier.id %}" class="btn btn-outline-primary btn-sm">View</a>
+              {% if perms.products.change_supplier %}
+                <a href="{% url 'products:update_supplier_view' supplier.id %}" class="btn btn-outline-warning btn-sm">Update</a>
+              {% endif %}
+              {% if perms.products.delete_supplier %}
+                <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{ supplier.id }}">Delete</button>
+              {% endif %}
+            </div>
+
+            {% if perms.products.delete_supplier %}
+            <div class="modal fade" id="deleteModal{{ supplier.id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ supplier.id }}" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <form method="POST" action="{% url 'products:delete_supplier_view' supplier.id %}">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="deleteModalLabel{{ supplier.id }}">Delete {{ supplier.name }}</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      Are you sure you want to delete <strong>{{ supplier.name }}</strong>?
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                      <button type="submit" class="btn btn-danger">Delete</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p class="text-muted">No suppliers available.</p>
+  {% endif %}
+</div>
+{% endblock %}

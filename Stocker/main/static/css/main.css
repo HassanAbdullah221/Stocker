@@ -1,0 +1,175 @@
+
+* {
+    font-family: "Ubuntu", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+body.dark {
+    background-color: #333333; 
+    color: white;
+}
+body {
+    background-color: white; 
+    color:  #333333;
+}
+h1 {
+    font-size: 4rem;
+    
+}
+h1, h2 {
+    font-family: "Bungee", sans-serif;
+}
+
+.navbar-brand h2 {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+main {
+    min-height: 60vh;
+}
+
+a{
+    text-decoration: none;
+    color: black;
+}
+
+
+body.dark h1, 
+body.dark h2, 
+body.dark h3 ,
+body.dark a , 
+body.dark .nav-link{
+    color:rgb(255, 179, 0);
+} 
+
+.nav-link{
+    color:rgb(255, 179, 0);
+} 
+
+body.dark hr {
+    background-color: rgb(115, 115, 115);
+}
+
+.top-logo {
+    font-size: 2.2rem;
+    color: rgb(255, 179, 0);
+}
+
+.hero  {
+
+    background-color:black;
+    padding-left: 4rem;
+}
+
+.avatar {
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+}
+.vid-container video {
+    height: 100%;
+    max-height: 50vh;
+    margin-left: 0.4rem;
+}
+
+input[type="search"]{
+    border-radius: 18;
+   
+}
+
+.top-nav a {
+    padding: 0px !important;
+}
+.nav-link  , .top-logo{
+    color: rgb(255, 179, 0);
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.nav-link:hover , .top-logo:hover {
+    transform: scale(1.1);
+    color: #ffa733;
+   
+}
+
+
+ @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .fade-in {
+        animation: fadeIn 1s ease-out forwards;
+        opacity: 0;
+    }
+ .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .card img {
+        max-height: 150px;
+        object-fit: contain;
+    }
+
+
+
+
+/* Begin Star Rating */
+
+.rate {
+    display: flex;
+    flex-direction: row-reverse;
+    height: 46px;
+    padding: 0 10px;
+    justify-content: start;
+    gap:2px;
+}
+.rate:not(:checked) > input {
+    position:absolute;
+    top:-9999px;
+}
+.rate:not(:checked) > label {
+    width:1em;
+    overflow:hidden;
+    white-space:nowrap;
+    cursor:pointer;
+    font-size:30px;
+    color:#ccc;
+}
+.rate:not(:checked) > label:before {
+    content: '★ ';
+}
+.rate > input:checked ~ label {
+    color: #ffc700;    
+}
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+    color: #deb217;  
+}
+.rate > input:checked + label:hover,
+.rate > input:checked + label:hover ~ label,
+.rate > input:checked ~ label:hover,
+.rate > input:checked ~ label:hover ~ label,
+.rate > label:hover ~ input:checked ~ label {
+    color: #c59b08;
+}
+
+
+/* End Star Rating */
+
+@media only screen and (max-width:800px)  {
+    .hero {
+        transition: all 0.3s ease-in;
+    }
+}

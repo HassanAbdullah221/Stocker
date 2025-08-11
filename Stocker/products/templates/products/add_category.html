@@ -1,0 +1,33 @@
+{% extends 'main/base.html' %}
+
+{% block title %} Add New Category - Stocker {% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+          
+            <div class="card-header text-center">
+                <h2>Add New Category</h2>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    {% csrf_token %}
+                    
+                    <div class="form-group mb-2">
+                        <label for="name">Category Name</label>
+                        <input type="text" id="name" name="name" class="form-control" required>
+                    </div>
+
+                    <div class="form-group mb-2">
+                        <label for="description">Category Description</label>
+                        <textarea id="description" name="description" class="form-control" rows="4" required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 mt-3">Add Category</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

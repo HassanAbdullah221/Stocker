@@ -1,0 +1,74 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}{{ category.name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="shadow-sm bg-white p-4 rounded">
+    <div class="row align-items-center">
+      <div class="col-md-12">
+        <h2 class="fw-bold">{{ category.name }}</h2>
+        <p class="text-dark"><strong>Description:</strong> {{ category.description }}</p>
+
+        {% if perms.products.change_category %}
+          <a href="{% url 'products:update_category_view' category.id %}" class="btn btn-warning text-dark mt-3">Update Category</a>
+        {% endif %}
+        {% if perms.products.delete_category %}
+          <button type="button" class="btn btn-danger mt-3" data-bs-toggle="modal" data-bs-target="#deleteModal{{ category.id }}">Delete Category</button>
+        {% endif %}
+      </div>
+    </div>
+
+    <hr class="my-5">
+
+    <h4 class="mb-4 text-center text-dark">Related Categories</h4>
+    <div class="row">
+      {% if related_categories %}
+        {% for related_category in related_categories %}
+          <div class="col-lg-4 col-md-6 col-sm-12 my-3">
+            <div class="card mx-auto shadow-sm" style="width: 18rem;">
+              <div class="card-body">
+                <h5 class="card-title">{{ related_category.name }}</h5>
+                <p class="card-text">
+                  <strong>Description:</strong> {{ related_category.description|truncatewords:10 }}
+                </p>
+                <div class="d-flex justify-content-center">
+                  <a href="{% url 'products:category_detail_view' related_category.id %}" class="btn btn-dark">View Details</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p class="text-dark text-center">No related categories available.</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block modals %}
+  {% if perms.products.delete_category %}
+    <div class="modal fade" id="deleteModal{{ category.id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ category.id }}" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <form method="POST" action="{% url 'products:delete_category_view' category.id %}">
+            {% csrf_token %}
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="deleteModalLabel{{ category.id }}">Delete {{ category.name }}</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              Are you sure you want to delete <strong>{{ category.name }}</strong>?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-danger">Delete</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+{% endblock %}

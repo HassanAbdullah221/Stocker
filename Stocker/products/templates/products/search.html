@@ -1,0 +1,93 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}Search Products{% endblock %}
+
+{% block content %}
+<div class="container mt-5 fade-in">
+    <form action="{% url 'products:search_products_view' %}" method="GET" class="row g-3 align-items-center justify-content-center mb-5">
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <input type="search" name="search" class="form-control" placeholder="Search product name..." minlength="1"
+                value="{{ request.GET.search }}">
+        </div>
+
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <select name="category" class="form-control">
+                <option value="">All Categories</option>
+                {% for category in categories %}
+                    <option value="{{ category.id }}"
+                        {% if request.GET.category == category.id|stringformat:"s" %}selected{% endif %}>
+                        {{ category.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <select name="supplier" class="form-control">
+                <option value="">All Suppliers</option>
+                {% for supplier in suppliers %}
+                    <option value="{{ supplier.id }}"
+                        {% if request.GET.supplier == supplier.id|stringformat:"s" %}selected{% endif %}>
+                        {{ supplier.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="col-lg-2 col-md-6 col-sm-12">
+            <select class="form-select" name="order_by">
+                <option value="">Sort By</option>
+                <option value="price" {% if request.GET.order_by == "price" %}selected{% endif %}>Price</option>
+                <option value="created_at" {% if request.GET.order_by == "created_at" %}selected{% endif %}>Newest</option>
+            </select>
+        </div>
+
+        <div class="col-lg-1 col-md-12 col-sm-12">
+            <button type="submit" class="btn btn-warning w-100 fw-bold">Search</button>
+        </div>
+    </form>
+
+    {% if products %}
+        <h2 class="fw-bold text-warning mb-4 fade-in">
+            Results: <span class="text-white">{{ products.count }}</span>
+        </h2>
+
+        <div class="row fade-in">
+            {% for product in products %}
+                <div class="col-lg-4 col-md-6 col-sm-12 my-3 d-flex">
+                    <div class="card w-100 d-flex flex-column">
+                        {% if product.image %}
+                            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                        {% else %}
+                            <img src="{% static 'images/placeholder.png' %}" class="card-img-top" alt="No image available">
+                        {% endif %}
+
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text">
+                                <strong>Category:</strong> {{ product.category.name }}<br>
+                                <strong>Price:</strong> {{ product.price }} SAR<br>
+                                <strong>Quantity:</strong> {{ product.quantity }}<br>
+                                <strong>Suppliers:</strong>
+                                {% for supplier in product.suppliers.all %}
+                                    {{ supplier.name }}{% if not forloop.last %}, {% endif %}
+                                {% empty %}
+                                    No suppliers listed
+                                {% endfor %}
+                            </p>
+                            <div class="mt-auto d-flex justify-content-center">
+                                <a href="{% url 'products:product_detail_view' product.id %}" class="btn btn-dark">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="text-center my-5 fade-in">
+            <h4 class="text-muted">No products found for your search.</h4>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

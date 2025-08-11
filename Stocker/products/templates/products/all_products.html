@@ -1,0 +1,15 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Products{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-warning text-center m-5">Products</h1>
+
+   {% include 'products/products_list.html' %}
+
+
+   
+</div>
+{% endblock %}

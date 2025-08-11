@@ -1,0 +1,92 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="shadow-sm bg-white p-4 rounded">
+    <div class="row align-items-center">
+      <div class="col-md-6 mb-4">
+        {% if product.image %}
+          <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid rounded shadow-sm">
+        {% else %}
+          <span class="text-muted">No image available</span>
+        {% endif %}
+      </div>
+
+      <div class="col-md-6">
+        <h2 class="fw-bold">{{ product.name }}</h2>
+        <p><strong>Description:</strong> {{ product.description }}</p>
+        <p><strong>Price:</strong> ${{ product.price }}</p>
+        <p><strong>Quantity:</strong> {{ product.quantity }}</p>
+        <p><strong>Category:</strong> {{ product.category.name }}</p>
+
+        {% if perms.products.change_product %}
+          <a href="{% url 'products:update_product_view' product.id %}" class="btn btn-warning mt-3">Update Product</a>
+        {% endif %}
+        {% if perms.products.delete_product %}
+          <button type="button" class="btn btn-danger mt-3" data-bs-toggle="modal" data-bs-target="#deleteModal{{ product.id }}">Delete Product</button>
+        {% endif %}
+      </div>
+    </div>
+
+    <hr class="my-5">
+
+    <h4 class="mb-4 text-center text-dark">Related Products</h4>
+    <div class="row">
+      {% if related_products %}
+        {% for related_product in related_products %}
+          <div class="col-lg-4 col-md-6 col-sm-12 my-3">
+            <div class="card mx-auto shadow-sm" style="width: 18rem;">
+              {% if related_product.image %}
+                <img src="{{ related_product.image.url }}" class="card-img-top" alt="{{ related_product.name }}">
+              {% else %}
+                <span class="text-muted">No image available</span>
+              {% endif %}
+
+              <div class="card-body">
+                <h5 class="card-title">{{ related_product.name }}</h5>
+                <p class="card-text">
+                  <strong>Price:</strong> ${{ related_product.price }}<br>
+                  <strong>Quantity:</strong> {{ related_product.quantity }}
+                </p>
+                <div class="d-flex justify-content-center">
+                  <a href="{% url 'products:product_detail_view' related_product.id %}" class="btn btn-dark">View Details</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p class="text-dark text-center">No related products available.</p>
+      {% endif %}
+    </div>
+  </div> 
+</div> 
+{% endblock %}
+
+{% block modals %}
+  {% if perms.products.delete_product %}
+    <div class="modal fade" id="deleteModal{{ product.id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ product.id }}" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <form method="POST" action="{% url 'products:delete_product_view' product.id %}">
+            {% csrf_token %}
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="deleteModalLabel{{ product.id }}">Delete {{ product.name }}</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              Are you sure you want to delete <strong>{{ product.name }}</strong>?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-danger">Delete</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+{% endblock %}
