@@ -10,11 +10,3 @@ class Profile(models.Model):
 
     def __str__(self):
         return f"Profile of {self.user.username}"
-
-class ProductBookmark(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey('products.Product', on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
-    
-    def __str__(self):
-        return f"{self.user.username} bookmarked {self.product.name}"
