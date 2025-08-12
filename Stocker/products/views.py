@@ -335,7 +335,7 @@ def supplier_report_view(request):
 
     context = {
         "report_title": "Supplier Report",
-        "generated_at": timezone.now(),
+        "generated_at": datetime.now(),
         "low_stock_threshold": LOW_STOCK_THRESHOLD,
         "total_suppliers": suppliers.count(),
         "total_products": totals.get('total_products') or 0,
