@@ -1,0 +1,6 @@
+name,description,price,quantity,category,suppliers,image
+Desk Lamp,Metal lamp with adjustable arm,19.99,25,Lighting,Acme Co|Bright Ltd,https://res.cloudinary.com/dd6imcqua/image/upload/v1754907851/oyyqlvqrksedpsd7nxcn.png
+Office Chair,Ergonomic mesh chair with lumbar support,129.5,10,Furniture,SeatWorks,https://res.cloudinary.com/dd6imcqua/image/upload/v1754907851/oyyqlvqrksedpsd7nxcn.png
+Notebook,200-page ruled notebook,3.5,200,Stationery,PaperCo|WriteRight,https://res.cloudinary.com/dd6imcqua/image/upload/v1754907851/oyyqlvqrksedpsd7nxcn.png
+Coffee Table,Wooden table with glass top,89,5,Furniture,FurniCraft,https://res.cloudinary.com/dd6imcqua/image/upload/v1754907851/oyyqlvqrksedpsd7nxcn.png
+LED Bulb,10W warm white LED bulb,2.99,500,Lighting,Bright Ltd,https://res.cloudinary.com/dd6imcqua/image/upload/v1754907851/oyyqlvqrksedpsd7nxcn.png
