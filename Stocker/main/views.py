@@ -3,7 +3,6 @@ from django.http import HttpRequest
 from django.shortcuts import redirect, render
 from django.core.paginator import Paginator
 from Stocker import settings
-from main.models import Contact
 from products.models import Category, Product, Supplier
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
